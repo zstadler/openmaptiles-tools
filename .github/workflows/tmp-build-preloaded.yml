@@ -1,0 +1,18 @@
+name: Build postgis-preloaded
+
+on: [push, workflow_dispatch]
+
+jobs:
+  job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: |
+          set -eux
+          df -h .
+          NO_REFRESH=1 make build-postgis-preloaded VERSION=test-zs
+          docker tag openmaptiles/postgis-preloaded:test-zs zstadler/postgis-preloaded:test-zs
+          docker image ls
+          docker run --rm --entrypoint sh zstadler/postgis-preloaded:test-zs -c 'grep VERSION_CODENAME /etc/os-release; du -sh "$PGDATA"'
+          df -h .
