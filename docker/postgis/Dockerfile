@@ -21,6 +21,7 @@ ARG MAPNIK_GERMAN_L10N_REPO=https://github.com/openmaptiles/mapnik-german-l10n.g
 
 RUN set -eux  ;\
     sed -i 's|apt.postgresql.org|apt-archive.postgresql.org|' /etc/apt/sources.list.d/pgdg.list  ;\
+    sed -i 's|deb.debian.org|archive.debian.org|' /etc/apt/sources.list  ;\
     apt-get -qq -y update  ;\
     ##
     ## Install build dependencies
